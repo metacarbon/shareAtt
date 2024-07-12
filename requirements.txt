@@ -1,0 +1,7 @@
+torch==2.0.1
+numpy==1.23.5
+sentencepiece==0.1.97
+transformers==4.29.1
+xformers==0.0.20
+deepspeed==0.13.5
+tensorboard==2.14.0

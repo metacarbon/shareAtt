@@ -1,0 +1,47 @@
+{
+  "gradient_accumulation_steps": 1,
+  "train_micro_batch_size_per_gpu": 1,
+  "prescale_gradients": false,
+  "zero_allow_untested_optimizer": true,
+  "optimizer": {
+    "type": "AdamW",
+    "params": {
+      "lr": 2e-5,
+      "weight_decay": "auto",
+      "torch_adam": true
+    }
+  },
+  "scheduler": {
+    "type": "WarmupCosineLR",
+    "params": {
+      "total_num_steps": 15000,
+      "warmup_min_ratio": 0.04,
+      "warmup_num_steps": 1000,
+      "cos_min_ratio": 0.0001
+    }
+  },
+  "tensorboard": {
+    "enabled": true,
+    "output_path": "logs/",
+    "job_name": "Llama-7b-pt"
+  },
+  "zero_optimization": {
+    "stage": 3,
+    "offload_optimizer": {
+      "device": "cpu",
+      "pin_memory": true
+    },
+
+    "contiguous_gradients": false,
+    "allgather_bucket_size": 3e8,
+    "reduce_bucket_size": 3e8,
+    "overlap_comm": true,
+    "reduce_scatter": true
+  },
+  "steps_per_print": 16,
+  "gradient_clipping": 1.0,
+  "wall_clock_breakdown": true,
+  "bf16": {
+    "enabled": true
+  }
+}
