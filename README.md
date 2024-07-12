@@ -47,6 +47,9 @@ accelerate config
 ```
 
 Download Llama-3-8b and modify corresponding files.
+
+Download Alpaca instruct dataset `alpaca_data_cleaned.json` from [gururise's repository](https://github.com/gururise/AlpacaDataCleaned).
+
 Train the model:
 ```bash
 ACCELERATE_USE_DEEPSPEED=true CUDA_VISIBLE_DEVICES="0,1" accelerate launch alpaca_finetuning.py
