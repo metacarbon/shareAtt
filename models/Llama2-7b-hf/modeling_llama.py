@@ -735,14 +735,14 @@ class LlamaModel(LlamaPreTrainedModel):
                         
                     return custom_forward
 
-                layer_outputs, self.first_layer_mask, self.reuse_layer_attn = torch.utils.checkpoint.checkpoint(
+                layer_outputs, self.reuse_layer_attn = torch.utils.checkpoint.checkpoint(
                     create_custom_forward(decoder_layer),
                     hidden_states,
                     attention_mask,
                     position_ids,
                 )
             else:
-                layer_outputs, self.first_layer_mask, self.reuse_layer_attn = decoder_layer(
+                layer_outputs, self.reuse_layer_attn = decoder_layer(
                     hidden_states,
                     attention_mask=attention_mask,
                     position_ids=position_ids,
