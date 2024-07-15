@@ -720,13 +720,13 @@ class LlamaModel(LlamaPreTrainedModel):
         all_hidden_states = () if output_hidden_states else None
         all_self_attns = () if output_attentions else None
         next_decoder_cache = () if use_cache else None
-
+        self.reuse_layer_attn = None
         for idx, decoder_layer in enumerate(self.layers):
             if output_hidden_states:
                 all_hidden_states += (hidden_states,)
 
             past_key_value = past_key_values[idx] if past_key_values is not None else None
-
+            
             if self.gradient_checkpointing and self.training:
                 def create_custom_forward(module):
                     def custom_forward(*inputs):
@@ -751,7 +751,7 @@ class LlamaModel(LlamaPreTrainedModel):
                     use_cache=use_cache,
                     reuse_layer_attn=self.reuse_layer_attn
                 )
-
+            
             hidden_states = layer_outputs[0]
 
             if use_cache:
@@ -759,7 +759,7 @@ class LlamaModel(LlamaPreTrainedModel):
 
             if output_attentions:
                 all_self_attns += (layer_outputs[1],)
-
+        del self.reuse_layer_attn
         hidden_states = self.norm(hidden_states)
 
         # add hidden states from the last decoder layer
